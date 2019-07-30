@@ -81,6 +81,7 @@ class Movie extends Component {
               time={this.state.movie.runtime}
               budget={this.state.movie.budget}
               revenue={this.state.movie.revenue}
+              release_date={this.state.movie.release_date}
             />
           </div>
         ) : null}

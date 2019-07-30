@@ -26,6 +26,12 @@ const MovieInfoBar = props => {
             Revenue:{convertMoney(props.revenue)}
           </span>
         </div>
+        <div className="rmdb-movieinfobar-content-col">
+          <FontAwesome className="fa-revenue" name="ticket" size="2x" />
+          <span className="rmdb-movieinfobar-info">
+            Released:{props.release_date}
+          </span>
+        </div>
       </div>
     </div>
   );

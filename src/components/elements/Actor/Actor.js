@@ -13,7 +13,7 @@ const Actor = props => {
             ? `${IMAGE_BASE_URL}${POSTER_SIZE}${props.actor.profile_path}`
             : "./images/no_image.jpg"
         }
-        alt="actors thumbnail image"
+        alt="actors thumbnail"
       />
       <span className="rmdb-actor-name">{props.actor.name}</span>
       <span className="rmdb-actor-characters">{props.actor.character}</span>
