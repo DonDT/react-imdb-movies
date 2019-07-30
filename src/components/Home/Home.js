@@ -21,7 +21,7 @@ class Home extends Component {
     loading: false,
     currentPage: 0,
     totalPages: 0,
-    searchItem: ""
+    searchTerm: ""
   };
 
   componentDidMount() {
@@ -60,7 +60,7 @@ class Home extends Component {
         .state.currentPage + 1}`;
     } else {
       endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${
-        this.state.searchItem
+        this.state.searchTerm
       }&page=${this.state.currentPage + 1}`;
     }
     this.fetchItems(endpoint);
