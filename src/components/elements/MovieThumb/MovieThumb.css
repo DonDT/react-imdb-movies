@@ -14,3 +14,12 @@
 .clickable:hover {
   opacity: 0.8;
 }
+
+.hoverImage {
+  display: none;
+}
+
+.hoverImage:hover {
+  display: inline-block;
+  font-size: 2rem;
+}
