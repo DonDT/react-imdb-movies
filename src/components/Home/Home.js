@@ -38,6 +38,7 @@ class Home extends Component {
 
   searchItems = searchTerm => {
     let endpoint = "";
+    // we set the movies to [] empty because, we want the movies loaded to disappear so we can display the movies that match the search term
     this.setState({
       movies: [],
       loading: true,
@@ -75,6 +76,7 @@ class Home extends Component {
           {
             movies: [...this.state.movies, ...result.results],
             heroImage: this.state.heroImage || result.results[0],
+            // Hero image is defined as the first array of movie. Then, in the //component where it is used, the array is accessed, to get the /////image, title and overview and ...
             loading: false,
             currentPage: result.page,
             totalPages: result.total_pages
