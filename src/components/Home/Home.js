@@ -31,9 +31,39 @@ class Home extends Component {
     } else {
       this.setState({ loading: true });
       const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+      // this.fetchItems(this.createEndpoint("movie/popular", false, ""));
+
       this.fetchItems(endpoint);
     }
   }
+
+  // createEndpoint = (type, loadMore, searchTerm) => {
+  //   return `${API_URL}${type}?api_key=${API_KEY}$language=en-US&page=${loadMore &&
+  //     this.state.currentPage + 1}&query=${searchTerm}`;
+  // };
+
+  //curried function. The above function can be rewrite
+
+  // updateItems = (loadMore, searchTerm) => {
+  //   this.setState(
+  //     {
+  //       movies: loadMore ? [...this.state.movies] : [],
+  //       loading: true,
+  //       searchTerm: loadMore ? this.state.searchTerm : searchTerm
+  //     },
+  //     () => {
+  //       this.fetchItems(
+  //         !this.state.searchTerm
+  //           ? this.createEndpoint("movie/popular", loadMore, "")
+  //           : this.createEndpoint(
+  //               "search/movie",
+  //               loadMore,
+  //               this.state.searchTerm
+  //             )
+  //       );
+  //     }
+  //   );
+  // };
 
   searchItems = searchTerm => {
     let endpoint = "";
@@ -66,27 +96,50 @@ class Home extends Component {
     this.fetchItems(endpoint);
   };
 
-  fetchItems = endpoint => {
-    fetch(endpoint)
-      .then(result => result.json())
-      .then(result => {
-        console.log(result);
-        this.setState(
-          {
-            movies: [...this.state.movies, ...result.results],
-            heroImage: this.state.heroImage || result.results[0],
-            // Hero image is defined as the first array of movie. Then, in the //component where it is used, the array is accessed, to get the /////image, title and overview and ...
-            loading: false,
-            currentPage: result.page,
-            totalPages: result.total_pages
-          },
-          () => {
-            localStorage.setItem("HomeState", JSON.stringify(this.state));
-          }
-        );
-      })
-      .catch(error => console.log("Error", error));
+  //Async and Await
+
+  fetchItems = async endpoint => {
+    const result = await (await fetch(endpoint)).json();
+    try {
+      this.setState(
+        {
+          movies: [...this.state.movies, ...result.results],
+          heroImage: this.state.heroImage || result.results[0],
+          // Hero image is defined as the first array of movie. Then, in the //component where it is used, the array is accessed, to get the /////image, title and overview and ...
+          loading: false,
+          currentPage: result.page,
+          totalPages: result.total_pages
+        },
+        () => {
+          localStorage.setItem("HomeState", JSON.stringify(this.state));
+        }
+      );
+    } catch (error) {
+      console.log("There was an error fetching the data", error);
+    }
   };
+
+  // fetchItems = endpoint => {
+  //   fetch(endpoint)
+  //     .then(result => result.json())
+  //     .then(result => {
+  //       console.log(result);
+  //       this.setState(
+  //         {
+  //           movies: [...this.state.movies, ...result.results],
+  //           heroImage: this.state.heroImage || result.results[0],
+  //           // Hero image is defined as the first array of movie. Then, in the //component where it is used, the array is accessed, to get the /////image, title and overview and ...
+  //           loading: false,
+  //           currentPage: result.page,
+  //           totalPages: result.total_pages
+  //         },
+  //         () => {
+  //           localStorage.setItem("HomeState", JSON.stringify(this.state));
+  //         }
+  //       );
+  //     })
+  //     .catch(error => console.log("Error", error));
+  // };
 
   render() {
     const {
@@ -99,7 +152,7 @@ class Home extends Component {
     } = this.state;
     return (
       <div className="rmdb-home">
-        {heroImage ? (
+        {heroImage && !searchTerm ? (
           <div>
             <HeroImage
               image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${
@@ -108,9 +161,9 @@ class Home extends Component {
               title={heroImage.original_title}
               text={heroImage.overview}
             />
-            <SearchBar callback={this.searchItems} />
           </div>
         ) : null}
+        <SearchBar callback={this.searchItems} />
         <div className="rmdb-home-grid">
           <FourColGrid
             header={searchTerm ? "Search Result" : "Popular Movies"}
@@ -133,7 +186,7 @@ class Home extends Component {
             })}
           </FourColGrid>
           {loading ? <Spinner /> : null}
-          {currentPage <= totalPages && !loading ? (
+          {currentPage < totalPages && !loading ? (
             <LoadMoreBtn text="Load More" onClick={this.loadinMoreItems} />
           ) : null}
         </div>
