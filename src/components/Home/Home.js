@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import {
-  API_URL,
-  API_KEY,
-  IMAGE_BASE_URL,
-  POSTER_SIZE,
-  BACKDROP_SIZE
-} from "../../config";
+// //import {
+//   API_URL,
+//   API_KEY,
+//   IMAGE_BASE_URL,
+//   POSTER_SIZE,
+//   BACKDROP_SIZE
+// } from "../../config";
 import HeroImage from "../elements/HeroImage/HeroImage";
 import FourColGrid from "../elements/FourColGrid/FourColGrid";
 import MovieThumb from "../elements/MovieThumb/MovieThumb";
@@ -157,9 +157,7 @@ class Home extends Component {
         {heroImage && !searchTerm ? (
           <div>
             <HeroImage
-              image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${
-                heroImage.backdrop_path
-              }`}
+              image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${heroImage.backdrop_path}`}
               title={heroImage.original_title}
               text={heroImage.overview}
             />
