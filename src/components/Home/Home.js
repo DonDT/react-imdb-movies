@@ -100,6 +100,8 @@ class Home extends Component {
 
   fetchItems = async endpoint => {
     const result = await (await fetch(endpoint)).json();
+    console.log(result);
+
     try {
       this.setState(
         {

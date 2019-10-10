@@ -10,9 +10,7 @@ const MovieInfo = props => {
       className="rmdb-movieinfo"
       style={{
         background: props.movie.backdrop_path
-          ? `url('${IMAGE_BASE_URL}${BACKDROP_SIZE}${
-              props.movie.backdrop_path
-            }')`
+          ? `url('${IMAGE_BASE_URL}${BACKDROP_SIZE}${props.movie.backdrop_path}')`
           : "#000"
       }}
     >

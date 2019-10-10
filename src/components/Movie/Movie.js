@@ -38,6 +38,7 @@ class Movie extends Component {
   fetchItems = async endpoint => {
     try {
       const result = await (await fetch(endpoint)).json();
+      console.log(result);
 
       if (result.status_code) {
         this.setState({ loading: false });
